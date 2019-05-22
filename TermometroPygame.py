@@ -193,7 +193,10 @@ class mainApp():
         
         introducido=""
         
-        while True:
+        
+        # Ciclo básico videojuego: Capturar eventos, acciones relacionadas y repintar pantalla.
+        # Siempre será igual, aunque cambien los eventos lo que sea
+        while True:                              
             for evento in pygame.event.get():
                 if evento.type == QUIT:
                     self.__onClose()
@@ -206,18 +209,24 @@ class mainApp():
                     nuevaT = self.termometro.convertir(grados,nuevaUnidad)
                     self.entrada.valorGetSet(nuevaT)
 
+            # Pintamos el fondo de pantalla (nada saldrá hasta el flip)
             self.__screen.fill((244,236,203))                              # Fondo pa pintar encima
 
+            # Pintamos el termómetro
             self.__screen.blit(self.termometro.disfraz,(30,20))            # Pinta el termómetro
-
-            cuadro = self.entrada.render()                                 # Crea rectángulo blanco con datos
-            pygame.draw.rect(self.__screen,(255,255,255), cuadro["fondo"]) # Crea y pinta el recuadro
-            self.__screen.blit(cuadro["texto"], self.entrada.positionGetSet())                            #Pinta el texto del recuadro
+            
+             # Crea rectángulo blanco con datos y "foto" del texto (string del número), que están en un dict
+            cuadro = self.entrada.render()
+            
+            # Crea y pinta el recuadro con el fondo del dict
+            pygame.draw.rect(self.__screen,(255,255,255), cuadro["fondo"])
+            
+            self.__screen.blit(cuadro["texto"], self.entrada.positionGetSet())  #Pinta el texto del recuadro (del dict)
             
             # Pintamos el selector:
             self.__screen.blit(self.selector.getDisfraz(), (120, 200))
             
-            
+            # Refrescamos lo que se ve
             pygame.display.flip()
             
     
